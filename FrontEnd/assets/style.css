@@ -127,13 +127,13 @@ li:hover {
 	margin-bottom: 51px;
 }
 
-.filtres {
+.filters {
 	display:flex;
 	justify-content: center;
 	margin-bottom: 51px;
 }
 
-.filtres > button {
+.filters > button {
 	color: #1D6154;
 	font-family: syne;
 	background-color: inherit;

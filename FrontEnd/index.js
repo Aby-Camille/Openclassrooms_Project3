@@ -4,8 +4,26 @@ const getCategories = async function() {
     const categories = await response.json();
     console.log(categories);
 
+    const filters = document.querySelector('.filters');
+
+    filters.innerHTML = '';
+
+    const all = {id: 0, name: 'Tous'};
+    categories.unshift(all);
+
     categories.forEach(category => {
-        console.log(category);
+        const button = document.createElement('button');
+        button.innerHTML = category.name;
+        button.id = category.id;
+
+        filters.appendChild(button);
+
+        button.addEventListener('click', (event) => {
+            const buttonClicked = event.target;
+            console.log(buttonClicked.innerHTML);
+            console.log(buttonClicked.id);
+        
+        })
     })
 }
 
@@ -18,7 +36,7 @@ const getProjects = async function() {
 
     gallery.innerHTML = '';
   
-    projects.forEach(project => {
+    projects.forEach((project) => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
         img.src = project.imageUrl;
