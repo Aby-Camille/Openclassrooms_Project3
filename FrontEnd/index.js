@@ -22,6 +22,10 @@ const getCategories = async function() {
             const buttonClicked = event.target;
             console.log(buttonClicked.innerHTML);
             console.log(buttonClicked.id);
+            
+            filters.filter(filters[index[gallery.id]]);
+            console.log(filters.filter(filters[ index[gallery.id]]));
+            
         
         })
     })
