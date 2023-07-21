@@ -1,4 +1,3 @@
-
 const getCategories = async function() {
     const response = await fetch('http://localhost:5678/api/categories');
     const categories = await response.json();
@@ -20,22 +19,30 @@ const getCategories = async function() {
 
         button.addEventListener('click', (event) => {
             const buttonClicked = event.target;
-            console.log(buttonClicked.innerHTML);
-            console.log(buttonClicked.id);
+            // console.log(buttonClicked.innerHTML);
+            // console.log(buttonClicked.id);
             
-            filters.filter(filters[index[gallery.id]]);
-            console.log(filters.filter(filters[ index[gallery.id]]));
-            
-        
+           if (category.id === 0) {
+            displayProjects(rawProjects);
+            return;
+           }
+
+            displayProjects(
+                rawProjects.filter(project => project.category.id === category.id)
+                );
         })
     })
 }
 
 const getProjects = async function() {
     const response = await fetch('http://localhost:5678/api/works');
-    const projects = await response.json();
-    console.log(projects);
+    rawProjects = await response.json();
+    console.log(rawProjects);
 
+    displayProjects(rawProjects);
+}
+
+function displayProjects(projects) { 
     const gallery = document.querySelector('.gallery');
 
     gallery.innerHTML = '';

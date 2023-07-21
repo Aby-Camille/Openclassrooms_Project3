@@ -75,7 +75,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -98,4 +97,64 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+}
+
+main {
+	display:flex;
+	justify-content: center;
+	margin-top: 100px;
+	margin-bottom: 355px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+h2 {
+	margin-bottom: 23px;
+	text-align: center;
+}
+
+label {
+	margin: 2em 0 1em 0;
+}
+
+input {
+	width: 379px;
+	height: 51px;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	border: none;
+}
+
+button {
+	width: 179px;
+	margin-top: 37px;
+	margin-bottom: 28px;
+	border-radius: 60px;
+	border: none;
+	background-color: #1D6154;
+	color: #FFFEF8;
+	padding-top: 10px;
+	padding-bottom: 9px;
+	font-size: 14px;
+	font-family: syne;
+	cursor: pointer;
+	margin: 2em auto;
+}
+
+a {
+	color: #3D3D3D;
+	font-weight: 500;
+	font-size: 14px;
+	margin: 0.28em auto;
+}
+
+footer {
+	display: flex;
+	justify-content: right;
+}
+
+.footer {
+	font-size: 14px;
 }
