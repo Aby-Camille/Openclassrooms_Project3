@@ -19,8 +19,6 @@ const getCategories = async function() {
 
         button.addEventListener('click', (event) => {
             const buttonClicked = event.target;
-            // console.log(buttonClicked.innerHTML);
-            // console.log(buttonClicked.id);
             
            if (category.id === 0) {
             displayProjects(rawProjects);
@@ -64,3 +62,7 @@ function displayProjects(projects) {
 
 getCategories();
 getProjects();
+
+document.querySelector('.login').addEventListener('click', (e) => {
+    window.location.href = "./connection.html";
+})
