@@ -63,6 +63,9 @@ function displayProjects(projects) {
 getCategories();
 getProjects();
 
-document.querySelector('.login').addEventListener('click', (e) => {
+const logout = document.querySelector('.login').innerHTML;
+document.querySelector('.login').innerHTML = logout.replace('login', 'logout');
+logout.addEventListener('click', (e) => {
+    localStorage.removeItem('token'),
     window.location.href = "./connection.html";
 })
