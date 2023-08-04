@@ -1,4 +1,4 @@
-const getCategories = async function() {
+const getCategories = async function () {
     const response = await fetch('http://localhost:5678/api/categories');
     const categories = await response.json();
     console.log(categories);
@@ -7,7 +7,7 @@ const getCategories = async function() {
 
     filters.innerHTML = '';
 
-    const all = {id: 0, name: 'Tous'};
+    const all = { id: 0, name: 'Tous' };
     categories.unshift(all);
 
     categories.forEach(category => {
@@ -19,20 +19,20 @@ const getCategories = async function() {
 
         button.addEventListener('click', (event) => {
             const buttonClicked = event.target;
-            
-           if (category.id === 0) {
-            displayProjects(rawProjects);
-            return;
-           }
+
+            if (category.id === 0) {
+                displayProjects(rawProjects);
+                return;
+            }
 
             displayProjects(
                 rawProjects.filter(project => project.category.id === category.id)
-                );
+            );
         })
     })
 }
 
-const getProjects = async function() {
+const getProjects = async function () {
     const response = await fetch('http://localhost:5678/api/works');
     rawProjects = await response.json();
     console.log(rawProjects);
@@ -40,11 +40,11 @@ const getProjects = async function() {
     displayProjects(rawProjects);
 }
 
-function displayProjects(projects) { 
+function displayProjects(projects) {
     const gallery = document.querySelector('.gallery');
 
     gallery.innerHTML = '';
-  
+
     projects.forEach((project) => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
@@ -57,15 +57,28 @@ function displayProjects(projects) {
         figure.appendChild(img);
         figure.appendChild(figcaption);
         gallery.appendChild(figure);
-    });  
+    });
 }
 
 getCategories();
 getProjects();
 
-const logout = document.querySelector('.login').innerHTML;
-document.querySelector('.login').innerHTML = logout.replace('login', 'logout');
-logout.addEventListener('click', (e) => {
-    localStorage.removeItem('token'),
-    window.location.href = "./connection.html";
-})
+
+
+const storedToken = localStorage.getItem('token');
+console.log(storedToken)
+// const logout = document.querySelector('.login');
+// console.log(storedToken)
+
+// if (storedToken) {
+    // logout.innerHTML = 'logout';
+    // logout.addEventListener('click', (e) => {
+    // localStorage.removeItem('token');
+    // window.location.href = "./connection.html";
+    // });
+// } else {
+    // logout.innerHTML = 'login';
+    // logout.addEventListener('click', (e) => {
+        // window.location.href = "./connection.html";
+    // });
+// };

@@ -18,15 +18,16 @@ document.querySelector('#connexion').addEventListener('submit', (event) => {
             })
         });
 
-        if (promise.ok === true) {
-            const response = await promise.json();
+        const response = await promise.json();
+        console.log(response);
+        if (promise.ok) {
             const token = response.token;
             localStorage.setItem('token', token);
-            window.location.href = './index.html';
+            window.location.replace ('./index.html');
         } else {
             alert("Erreur d'identifiant ou de mot de passe");
         }
     };
-
+    
     fetchUser()
 });
