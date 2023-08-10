@@ -19,7 +19,6 @@ document.querySelector('#connexion').addEventListener('submit', (event) => {
         });
 
         const response = await promise.json();
-        console.log(response);
         if (promise.ok) {
             const token = response.token;
             localStorage.setItem('token', token);
@@ -31,3 +30,19 @@ document.querySelector('#connexion').addEventListener('submit', (event) => {
     
     fetchUser()
 });
+
+const storedToken = localStorage.getItem('token');
+const logout = document.querySelector('.login');
+
+if (storedToken) {
+    logout.innerHTML = 'logout';
+    logout.addEventListener('click', (e) => {
+    localStorage.removeItem('token');
+    window.location.href = "./connection.html";
+    });
+} else {
+    logout.innerHTML = 'login';
+    logout.addEventListener('click', (e) => {
+        window.location.href = "./connection.html";
+    });
+};

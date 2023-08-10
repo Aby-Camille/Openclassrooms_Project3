@@ -66,19 +66,30 @@ getProjects();
 
 
 const storedToken = localStorage.getItem('token');
-console.log(storedToken)
-// const logout = document.querySelector('.login');
-// console.log(storedToken)
+const logout = document.querySelector('.login');
 
-// if (storedToken) {
-    // logout.innerHTML = 'logout';
-    // logout.addEventListener('click', (e) => {
-    // localStorage.removeItem('token');
-    // window.location.href = "./connection.html";
-    // });
-// } else {
-    // logout.innerHTML = 'login';
-    // logout.addEventListener('click', (e) => {
-        // window.location.href = "./connection.html";
-    // });
-// };
+if (storedToken) {
+    logout.innerHTML = 'logout';
+    logout.addEventListener('click', (e) => {
+    localStorage.removeItem('token');
+    window.location.href = "./connection.html";
+    });
+} else {
+    logout.innerHTML = 'login';
+    logout.addEventListener('click', (e) => {
+        window.location.href = "./connection.html";
+    });
+};
+
+
+const openBtn = document.querySelector('.btn-modify');
+const closeBtn = document.querySelector('.btn-close');
+const modal = document.querySelector('.modal');
+
+openBtn.addEventListener('click', (e) => {
+    modal.style.display = 'block';
+})
+
+closeBtn.addEventListener('click', (e) => {
+    modal.style.display ='none';
+})
