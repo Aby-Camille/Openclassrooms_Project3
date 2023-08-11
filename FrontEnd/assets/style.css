@@ -321,8 +321,20 @@ footer nav ul {
 	cursor: pointer;
 }
 
+.cross {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+  }
+
 .title-gallery {
 	font-family: 'Work Sans';
 	color:black;
 	text-align: center;
 }
+
+.modal-image {
+	width: 76.86px;
+	height: auto;
+}
+

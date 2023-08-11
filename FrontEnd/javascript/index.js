@@ -1,3 +1,5 @@
+// filtrage des projets par catégories.
+
 const getCategories = async function () {
     const response = await fetch('http://localhost:5678/api/categories');
     const categories = await response.json();
@@ -32,6 +34,8 @@ const getCategories = async function () {
     })
 }
 
+// Récupération et affichage des projets via l'API.
+
 const getProjects = async function () {
     const response = await fetch('http://localhost:5678/api/works');
     rawProjects = await response.json();
@@ -63,7 +67,7 @@ function displayProjects(projects) {
 getCategories();
 getProjects();
 
-
+// page de connexion stockage du token.
 
 const storedToken = localStorage.getItem('token');
 const logout = document.querySelector('.login');
@@ -81,6 +85,7 @@ if (storedToken) {
     });
 };
 
+// Gestion de la fenêtre de boite modale.
 
 const openBtn = document.querySelector('.btn-modify');
 const closeBtn = document.querySelector('.btn-close');
@@ -93,3 +98,35 @@ openBtn.addEventListener('click', (e) => {
 closeBtn.addEventListener('click', (e) => {
     modal.style.display ='none';
 })
+
+// Récupération des projets sur la fenêtre de boite modale.
+
+const getWorks = async function () {
+    const response = await fetch('http://localhost:5678/api/works');
+    rawProjects = await response.json();
+    console.log(rawProjects);
+
+    displayWorks(rawProjects);
+
+}
+
+    function displayWorks(projects) {
+        const modalContent = document.querySelector('.modal-content');
+        
+        projects.forEach((project) => {
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            img.src = project.imageUrl;
+            img.alt = project.title;
+            img.class = 'modal-image';
+            
+            const figcaption = document.createElement('figcaption');
+            figcaption.innerHTML = project.title;
+            
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+            modalContent.appendChild(figure);
+        });
+    }
+
+getWorks();
