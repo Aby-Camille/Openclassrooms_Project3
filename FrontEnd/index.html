@@ -119,20 +119,21 @@
 		</ul>
 	</nav>
 </footer>
-<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal" style = "display: none">
-	<div class="modal-wrapper">
-		<span class="cross">
-			<button class="btn-close"><img src="./assets/icons/close.svg" alt="close window"/></button>
-		</span>
-		<h1  class="title-gallery" id="title-modal">Galerie photo</h1>
-		<div class="modal-content">
+<dialog id="modal-edit" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
+	<span class="cross">
+		<button class="btn-close"><img src="./assets/icons/close.svg" alt="close window"/></button>
+	</span>
 
-		</div>
+	<div class="modal-wrapper">
+		<h1  class="title-gallery" id="title-modal">Galerie photo</h1>
+		<div class="modal-content"></div>
 		<hr/>
-		<button class="btn-add">Ajouter une photo</button>
-		<button class="btn-delete">Supprimer la galerie</button>
+		<div class="modal-actions">
+			<button class="btn-add">Ajouter une photo</button>
+			<button class="btn-delete">Supprimer la galerie</button>
+		</div>
 	</div>
-</aside>
+</dialog>
 <script src="javascript/index.js"></script>
 </div>
 </body>

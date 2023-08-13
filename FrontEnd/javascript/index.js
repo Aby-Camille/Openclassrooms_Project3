@@ -1,13 +1,25 @@
-// filtrage des projets par catégories.
+let rawProjects = [];
 
+// filtrage des projets par catégories.
 const getCategories = async function () {
     const response = await fetch('http://localhost:5678/api/categories');
     const categories = await response.json();
     console.log(categories);
 
     const filters = document.querySelector('.filters');
-
     filters.innerHTML = '';
+    filters.addEventListener('click', (e) => {
+        const id = parseInt(e.target.id);
+
+        if (id === 0) {
+            displayProjects(rawProjects);
+            return;
+        }
+
+        displayProjects(
+            rawProjects.filter(project => project.category.id === id)
+        );
+    });
 
     const all = { id: 0, name: 'Tous' };
     categories.unshift(all);
@@ -18,24 +30,10 @@ const getCategories = async function () {
         button.id = category.id;
 
         filters.appendChild(button);
-
-        button.addEventListener('click', (event) => {
-            const buttonClicked = event.target;
-
-            if (category.id === 0) {
-                displayProjects(rawProjects);
-                return;
-            }
-
-            displayProjects(
-                rawProjects.filter(project => project.category.id === category.id)
-            );
-        })
-    })
+    });
 }
 
 // Récupération et affichage des projets via l'API.
-
 const getProjects = async function () {
     const response = await fetch('http://localhost:5678/api/works');
     rawProjects = await response.json();
@@ -64,43 +62,7 @@ function displayProjects(projects) {
     });
 }
 
-getCategories();
-getProjects();
-
-// page de connexion stockage du token.
-
-const storedToken = localStorage.getItem('token');
-const logout = document.querySelector('.login');
-
-if (storedToken) {
-    logout.innerHTML = 'logout';
-    logout.addEventListener('click', (e) => {
-    localStorage.removeItem('token');
-    window.location.href = "./connection.html";
-    });
-} else {
-    logout.innerHTML = 'login';
-    logout.addEventListener('click', (e) => {
-        window.location.href = "./connection.html";
-    });
-};
-
-// Gestion de la fenêtre de boite modale.
-
-const openBtn = document.querySelector('.btn-modify');
-const closeBtn = document.querySelector('.btn-close');
-const modal = document.querySelector('.modal');
-
-openBtn.addEventListener('click', (e) => {
-    modal.style.display = 'block';
-})
-
-closeBtn.addEventListener('click', (e) => {
-    modal.style.display ='none';
-})
-
 // Récupération des projets sur la fenêtre de boite modale.
-
 const getWorks = async function () {
     const response = await fetch('http://localhost:5678/api/works');
     rawProjects = await response.json();
@@ -110,23 +72,73 @@ const getWorks = async function () {
 
 }
 
-    function displayWorks(projects) {
-        const modalContent = document.querySelector('.modal-content');
+function displayWorks(projects) {
+    const modalContent = document.querySelector('.modal-content');
+    
+    projects.forEach((project) => {
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = project.imageUrl;
+        img.alt = project.title;
+        img.classList.add('modal-image');
         
-        projects.forEach((project) => {
-            const figure = document.createElement('figure');
-            const img = document.createElement('img');
-            img.src = project.imageUrl;
-            img.alt = project.title;
-            img.class = 'modal-image';
-            
-            const figcaption = document.createElement('figcaption');
-            figcaption.innerHTML = project.title;
-            
-            figure.appendChild(img);
-            figure.appendChild(figcaption);
-            modalContent.appendChild(figure);
-        });
-    }
+        const figcaption = document.createElement('figcaption');
+        figcaption.innerHTML = project.title;
+        figcaption.innerHTML = "éditer";
+        
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        modalContent.appendChild(figure);
+    });
+}
 
+// Gestion de la fenêtre de boite modale.
+function manageProject() {
+    const openBtn = document.querySelector('.btn-modify');
+    const closeBtn = document.querySelector('.btn-close');
+    const modal = document.querySelector('#modal-edit');
+
+    openBtn.addEventListener('click', () => {
+        modal.showModal();
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.close();
+    });
+
+    modal.addEventListener('click', (e) => {
+        // console.log(e.target);
+        if (e.target === modal) {
+            modal.close();
+        }
+    });
+}
+
+// page de connexion stockage du token.
+function checkLogin() {
+    const storedToken = localStorage.getItem('token');
+    const logout = document.querySelector('.login');
+
+    if (storedToken) {
+        logout.innerHTML = 'logout';
+        document.querySelector('.top-bar').style.display = 'flex';
+        // const topBar = document.querySelector('.top-bar');
+        // topBar.style.display = 'flex';
+
+        logout.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            window.location.href = "./connection.html";
+        });
+    } else {
+        logout.innerHTML = 'login';
+        logout.addEventListener('click', () => {
+            window.location.href = "./connection.html";
+        });
+    };
+}
+
+getProjects();
+getCategories();
 getWorks();
+manageProject();
+checkLogin();
