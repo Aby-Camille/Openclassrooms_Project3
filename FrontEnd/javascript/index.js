@@ -1,4 +1,5 @@
 let rawProjects = [];
+let storedToken;
 
 // filtrage des projets par catégories.
 const getCategories = async function () {
@@ -9,8 +10,11 @@ const getCategories = async function () {
     const filters = document.querySelector('.filters');
     filters.innerHTML = '';
     filters.addEventListener('click', (e) => {
-        const id = parseInt(e.target.id);
+        if (e.target.id === '') {
+            return;
+        }
 
+        const id = parseInt(e.target.id);
         if (id === 0) {
             displayProjects(rawProjects);
             return;
@@ -40,6 +44,7 @@ const getProjects = async function () {
     console.log(rawProjects);
 
     displayProjects(rawProjects);
+    displayWorks(rawProjects);
 }
 
 function displayProjects(projects) {
@@ -62,21 +67,22 @@ function displayProjects(projects) {
     });
 }
 
-// Récupération des projets sur la fenêtre de boite modale.
-const getWorks = async function () {
-    const response = await fetch('http://localhost:5678/api/works');
-    rawProjects = await response.json();
-    console.log(rawProjects);
-
-    displayWorks(rawProjects);
-
+// Supprimer un projet.
+const deleteProject = async function (id) {
+    await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${storedToken}`
+        }
+    });
 }
 
+// Affichage des projets sur la modale.
 function displayWorks(projects) {
     const modalContent = document.querySelector('.modal-content');
+    modalContent.innerHTML = '';
     
     projects.forEach((project) => {
-        const figure = document.createElement('figure');
         const img = document.createElement('img');
         img.src = project.imageUrl;
         img.alt = project.title;
@@ -85,14 +91,45 @@ function displayWorks(projects) {
         const figcaption = document.createElement('figcaption');
         figcaption.innerHTML = project.title;
         figcaption.innerHTML = "éditer";
+
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.classList.add('svg-icon');
+        icon.innerHTML = `
+          <g id="trash-can-solid">
+            <path id="Vector" d="M2.71607 0.35558C2.82455 0.136607 3.04754 0 3.29063 0H5.70938C5.95246 0 6.17545 0.136607 6.28393 0.35558L6.42857 0.642857H8.35714C8.71272 0.642857 9 0.930134 9 1.28571C9 1.64129 8.71272 1.92857 8.35714 1.92857H0.642857C0.287277 1.92857 0 1.64129 0 1.28571C0 0.930134 0.287277 0.642857 0.642857 0.642857H2.57143L2.71607 0.35558ZM0.642857 2.57143H8.35714V9C8.35714 9.70915 7.78058 10.2857 7.07143 10.2857H1.92857C1.21942 10.2857 0.642857 9.70915 0.642857 9V2.57143ZM2.57143 3.85714C2.39464 3.85714 2.25 4.00179 2.25 4.17857V8.67857C2.25 8.85536 2.39464 9 2.57143 9C2.74821 9 2.89286 8.85536 2.89286 8.67857V4.17857C2.89286 4.00179 2.74821 3.85714 2.57143 3.85714ZM4.5 3.85714C4.32321 3.85714 4.17857 4.00179 4.17857 4.17857V8.67857C4.17857 8.85536 4.32321 9 4.5 9C4.67679 9 4.82143 8.85536 4.82143 8.67857V4.17857C4.82143 4.00179 4.67679 3.85714 4.5 3.85714ZM6.42857 3.85714C6.25179 3.85714 6.10714 4.00179 6.10714 4.17857V8.67857C6.10714 8.85536 6.25179 9 6.42857 9C6.60536 9 6.75 8.85536 6.75 8.67857V4.17857C6.75 4.00179 6.60536 3.85714 6.42857 3.85714Z" fill="white"/>
+          </g>
+        `;
+
+        const trashBtn = document.createElement('button');
+        trashBtn.classList.add('btn-trash');
+        const id = project.id;
+        trashBtn.id = project.id;
+        trashBtn.addEventListener ('click', (e) => {
+            if (typeof trashBtn.id ==='string') {
+                    deleteProject(id);
+                    return;
+                }
+            console.log(trashBtn.id)
+        });
         
+        const figure = document.createElement('figure');
         figure.appendChild(img);
         figure.appendChild(figcaption);
+        figure.appendChild(trashBtn);
+        trashBtn.appendChild(icon);
         modalContent.appendChild(figure);
     });
 }
 
-// Gestion de la fenêtre de boite modale.
+// Affichage de la modale ajout de projet.
+function showModal2() {
+    const addBtn = document.querySelector('.btn-add');
+    addBtn.addEventListener('click', () => {
+    document.querySelector('.modal-content').innerHTML = '';
+ });
+}
+
+// Gestion de la modale.
 function manageProject() {
     const openBtn = document.querySelector('.btn-modify');
     const closeBtn = document.querySelector('.btn-close');
@@ -107,23 +144,21 @@ function manageProject() {
     });
 
     modal.addEventListener('click', (e) => {
-        // console.log(e.target);
         if (e.target === modal) {
             modal.close();
         }
     });
 }
 
-// page de connexion stockage du token.
+// Recupération du token de connexion.
 function checkLogin() {
-    const storedToken = localStorage.getItem('token');
     const logout = document.querySelector('.login');
+    storedToken = localStorage.getItem('token');
 
     if (storedToken) {
         logout.innerHTML = 'logout';
         document.querySelector('.top-bar').style.display = 'flex';
-        // const topBar = document.querySelector('.top-bar');
-        // topBar.style.display = 'flex';
+        document.querySelector('.btn-modify').style.display = 'flex';
 
         logout.addEventListener('click', () => {
             localStorage.removeItem('token');
@@ -139,6 +174,6 @@ function checkLogin() {
 
 getProjects();
 getCategories();
-getWorks();
+showModal2();
 manageProject();
 checkLogin();

@@ -275,6 +275,7 @@ li:hover {
 	background-color: inherit;
 	font-family: Work Sans;
 	border: none;
+	display: none;
 }
 
 .btn-modify:hover {
@@ -391,6 +392,7 @@ footer nav ul {
 .modal-actions {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 dialog::backdrop {
@@ -425,4 +427,43 @@ dialog::backdrop {
 	grid-template-columns: 0fr 0fr 0fr 0fr 0fr;
 	grid-column-gap: 9px;
 	justify-content: center;
+}
+
+hr {
+	margin-top: 67.3px;
+}
+
+.btn-add {
+	width: 237px;
+	height: 36px;
+	border-radius: 60px;
+	border: none;
+	background-color:#1D6154;
+	color:#FFFFFF;
+	margin-top: 40px;
+	margin-bottom: 23px;
+}
+
+.btn-delete {
+	border: none;
+	color: #D65353;
+	background-color: unset;
+	margin-bottom: 40px;
+}
+
+.svg-icon {
+	width: 10px;
+	height: 10px;
+	position:relative;
+	left: -1px;
+}
+
+.btn-trash {
+	position:relative;
+	top: -115px;
+    left: 53px;
+	border: none;
+	background-color: black;
+	border-radius: 2px;
+	width: 19px;
 }

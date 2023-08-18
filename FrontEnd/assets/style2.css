@@ -124,6 +124,8 @@ label {
 input {
 	width: 379px;
 	height: 51px;
+	padding: 0 16px;
+	font-size: 16px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	border: none;
 }
@@ -149,6 +151,11 @@ a {
 	font-weight: 500;
 	font-size: 14px;
 	margin: 0.28em auto;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 footer {
