@@ -404,10 +404,16 @@ dialog::backdrop {
 	background-color: inherit;
 }
 
-.cross {
+.cross-arrow {
 	width: 100%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+}
+
+.btn-arrow {
+	border: none;
+	background-color: unset;
+	visibility: hidden;
 }
 
 .title-gallery {
@@ -466,4 +472,76 @@ hr {
 	background-color: black;
 	border-radius: 2px;
 	width: 19px;
+}
+
+.label-image {
+	position:relative;
+}
+
+.img-rectangle {
+	margin-bottom: 30px;
+}
+
+.img-icon {
+	position:absolute;
+	top: -160px;
+    left: 170px;
+}
+
+.img-input {
+	position: absolute;
+	top: -50px;
+    left: 50px;
+	visibility: hidden;
+}
+
+.add-photo {
+	position:absolute;
+	width: 173px;
+	height: 36px;
+	top: -80px;
+    left: 125px;
+	color: #306685;
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+	cursor: pointer;
+}
+
+.title-input {
+	margin-top: 10px;
+	margin-bottom: 21px;
+	width: 420px;
+	height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.category-select {
+	margin-top: 10px;
+	width: 420px;
+	height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.btn-validate {
+	width: 237px;
+	height: 36px;
+	border-radius: 60px;
+	border: none;
+	background-color: #A7A7A7;
+	color:#FFFFFF;
+	margin-top: 40px;
+	margin-bottom: 23px;
+	margin-left: 100px;
+}
+
+.btn-validate:hover {
+	background-color: #1D6154;
 }

@@ -120,7 +120,8 @@
 	</nav>
 </footer>
 <dialog id="modal-edit" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
-	<span class="cross">
+	<span class="cross-arrow">
+		<button class="btn-arrow"><img src="./assets/icons/arrow-left.svg" alt="return modal"/></button>
 		<button class="btn-close"><img src="./assets/icons/close.svg" alt="close window"/></button>
 	</span>
 
@@ -134,6 +135,24 @@
 		</div>
 	</div>
 </dialog>
+<template id="template-add-work-form">
+	<form id="add-work-form">
+		<label class="label-image">
+			<img class="img-rectangle" src="./assets/icons/Rectangle 21.svg" alt="add image"/>
+			<img class="img-icon" src="./assets/icons/picture-repo.svg" alt="add image icon"/>
+			<input class="img-input" id="file" type="file" accept="image/*"/>
+			<label class="add-photo" for="file">+ Ajouter photo</label>
+		</label>
+		<label for="name">Titre
+			<input class="title-input" type ="text" name ="title"/>
+		</label>
+		<label for="category">Catégorie
+			<select class="category-select" id="category-input" name="category"></select>
+		</label>
+		<hr/>
+		<button class="btn-validate" type="submit">Valider</button>
+	</form>
+</template>
 <script src="javascript/index.js"></script>
 </div>
 </body>

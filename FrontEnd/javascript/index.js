@@ -1,5 +1,6 @@
 let rawProjects = [];
 let storedToken;
+let categories = [];
 
 // filtrage des projets par catégories.
 const getCategories = async function () {
@@ -84,6 +85,7 @@ function displayWorks(projects) {
     
     projects.forEach((project) => {
         const img = document.createElement('img');
+        img.classList.add('trash-parent');
         img.src = project.imageUrl;
         img.alt = project.title;
         img.classList.add('modal-image');
@@ -104,14 +106,15 @@ function displayWorks(projects) {
         trashBtn.classList.add('btn-trash');
         const id = project.id;
         trashBtn.id = project.id;
-        trashBtn.addEventListener ('click', (e) => {
+        trashBtn.addEventListener ('click', async (e) => {
             if (typeof trashBtn.id ==='string') {
-                    deleteProject(id);
-                    return;
-                }
+                await deleteProject(id);
+                await getProjects();
+                return;
+            }
             console.log(trashBtn.id)
         });
-        
+
         const figure = document.createElement('figure');
         figure.appendChild(img);
         figure.appendChild(figcaption);
@@ -124,8 +127,48 @@ function displayWorks(projects) {
 // Affichage de la modale ajout de projet.
 function showModal2() {
     const addBtn = document.querySelector('.btn-add');
+    const arrowBtn = document.querySelector('.btn-arrow');
+
+    arrowBtn.addEventListener('click', () => {
+        location.reload();
+    });
+
     addBtn.addEventListener('click', () => {
     document.querySelector('.modal-content').innerHTML = '';
+    document.querySelector('.modal-actions').innerHTML = '';
+    document.querySelector('.title-gallery').innerHTML = 'Ajout photo';
+    arrowBtn.style.visibility ='visible';
+
+    const templateAddWorkForm = document.querySelector("#template-add-work-form").content.cloneNode(true);
+
+    const categoryInput = templateAddWorkForm.getElementById('category-input');
+
+    for (let category of categories) {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.innerText = category.name;
+
+        categoryInput.appendChild(option);
+    }
+
+    let addWorkForm = templateAddWorkForm.getElementById('add-work-form');
+    addWorkForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(addWorkForm);
+
+        await fetch ('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${storedToken}`
+            },
+            body: formData
+        });
+
+        await getProjects();
+    });
+
+    document.querySelector('.modal-content').appendChild(templateAddWorkForm);
  });
 }
 
