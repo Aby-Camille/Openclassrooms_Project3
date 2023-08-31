@@ -432,7 +432,7 @@ dialog::backdrop {
 	display: grid;
 	grid-template-columns: 0fr 0fr 0fr 0fr 0fr;
 	grid-column-gap: 9px;
-	justify-content: center;
+	max-width: 420px;
 }
 
 hr {
@@ -480,12 +480,22 @@ hr {
 
 .img-rectangle {
 	margin-bottom: 30px;
+
 }
 
 .img-icon {
 	position:absolute;
 	top: -160px;
     left: 170px;
+}
+
+.img-preview {
+	visibility: hidden;
+	position:absolute;
+	top: -186px;
+    left: 150px;
+    width: 129px;
+    height: 169px;
 }
 
 .img-input {

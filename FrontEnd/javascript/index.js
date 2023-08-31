@@ -5,7 +5,7 @@ let categories = [];
 // filtrage des projets par catégories.
 const getCategories = async function () {
     const response = await fetch('http://localhost:5678/api/categories');
-    const categories = await response.json();
+    categories = await response.json();
     console.log(categories);
 
     const filters = document.querySelector('.filters');
@@ -82,14 +82,14 @@ const deleteProject = async function (id) {
 function displayWorks(projects) {
     const modalContent = document.querySelector('.modal-content');
     modalContent.innerHTML = '';
-    
+
     projects.forEach((project) => {
         const img = document.createElement('img');
         img.classList.add('trash-parent');
         img.src = project.imageUrl;
         img.alt = project.title;
         img.classList.add('modal-image');
-        
+
         const figcaption = document.createElement('figcaption');
         figcaption.innerHTML = project.title;
         figcaption.innerHTML = "éditer";
@@ -106,8 +106,8 @@ function displayWorks(projects) {
         trashBtn.classList.add('btn-trash');
         const id = project.id;
         trashBtn.id = project.id;
-        trashBtn.addEventListener ('click', async (e) => {
-            if (typeof trashBtn.id ==='string') {
+        trashBtn.addEventListener('click', async (e) => {
+            if (typeof trashBtn.id === 'string') {
                 await deleteProject(id);
                 await getProjects();
                 return;
@@ -130,46 +130,77 @@ function showModal2() {
     const arrowBtn = document.querySelector('.btn-arrow');
 
     arrowBtn.addEventListener('click', () => {
-        location.reload();
+        getProjects();
+        document.querySelector('.modal-actions').style.display = 'flex';
+        document.querySelector('.hr1').style.display = 'flex';
+        arrowBtn.style.visibility = 'hidden';
     });
 
     addBtn.addEventListener('click', () => {
-    document.querySelector('.modal-content').innerHTML = '';
-    document.querySelector('.modal-actions').innerHTML = '';
-    document.querySelector('.title-gallery').innerHTML = 'Ajout photo';
-    arrowBtn.style.visibility ='visible';
+        document.querySelector('.modal-content').innerHTML = '';
+        document.querySelector('.modal-actions').style.display = 'none';
+        document.querySelector('.hr1').style.display = 'none';
+        document.querySelector('.title-gallery').innerHTML = 'Ajout photo';
+        arrowBtn.style.visibility = 'visible';
 
-    const templateAddWorkForm = document.querySelector("#template-add-work-form").content.cloneNode(true);
+        const templateAddWorkForm = document.querySelector("#template-add-work-form").content.cloneNode(true);
 
-    const categoryInput = templateAddWorkForm.getElementById('category-input');
+        const imageFileInput = templateAddWorkForm.getElementById('file');
+        const imgDw = templateAddWorkForm.querySelector('.img-preview');
+      
+        imageFileInput.addEventListener('change', function() {
+            console.log(this.files);
+            const file = this.files[0];
+            if (file) {
 
-    for (let category of categories) {
-        const option = document.createElement('option');
-        option.value = category.id;
-        option.innerText = category.name;
+                const reader = new FileReader();
+                imgDw.style.visibility = 'visible';
+                document.querySelector('.add-photo').style.visibility = 'hidden';
+                reader.readAsDataURL(file);
 
-        categoryInput.appendChild(option);
-    }
+                reader.addEventListener('load', function(){
+                    imgDw.setAttribute('src', this.result);
+                });
+            };
 
-    let addWorkForm = templateAddWorkForm.getElementById('add-work-form');
-    addWorkForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(addWorkForm);
-
-        await fetch ('http://localhost:5678/api/works', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${storedToken}`
-            },
-            body: formData
         });
+    
+        const categoryInput = templateAddWorkForm.getElementById('category-input');
 
-        await getProjects();
+        for (let category of categories) {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.innerText = category.name;
+
+            categoryInput.appendChild(option);
+        }
+
+        let addWorkForm = templateAddWorkForm.getElementById('add-work-form');
+        addWorkForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            confirm('Souhaitez-vous confirmer?');
+              
+                const formData = new FormData(addWorkForm);
+                console.log(formData);
+
+                await fetch('http://localhost:5678/api/works', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${storedToken}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    body: formData
+                });
+
+                await getProjects();
+                document.querySelector('.modal-actions').style.display = 'flex';
+                document.querySelector('.hr1').style.display = 'flex';
+                arrowBtn.style.visibility = 'hidden';
+
+            });
+            
+            document.querySelector('.modal-content').appendChild(templateAddWorkForm);
     });
-
-    document.querySelector('.modal-content').appendChild(templateAddWorkForm);
- });
 }
 
 // Gestion de la modale.
