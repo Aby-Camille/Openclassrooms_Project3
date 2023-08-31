@@ -423,6 +423,10 @@ dialog::backdrop {
 	margin-bottom: 46px;
 }
 
+.figure-list {
+	position: relative;
+}
+
 .modal-image {
 	width: 76.86px;
 	height: auto;
@@ -465,13 +469,14 @@ hr {
 }
 
 .btn-trash {
-	position:relative;
-	top: -115px;
-    left: 53px;
+	position: absolute;
+	top: 3px;
+    left: 55px;
 	border: none;
 	background-color: black;
 	border-radius: 2px;
 	width: 19px;
+	z-index: 1;
 }
 
 .label-image {

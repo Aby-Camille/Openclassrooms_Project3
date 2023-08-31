@@ -116,6 +116,7 @@ function displayWorks(projects) {
         });
 
         const figure = document.createElement('figure');
+        figure.classList.add('figure-list');
         figure.appendChild(img);
         figure.appendChild(figcaption);
         figure.appendChild(trashBtn);
