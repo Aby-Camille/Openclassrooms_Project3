@@ -425,6 +425,7 @@ dialog::backdrop {
 
 .figure-list {
 	position: relative;
+	margin-bottom: 10.55px;
 }
 
 .modal-image {
@@ -468,10 +469,29 @@ hr {
 	left: -1px;
 }
 
+.svg-move {
+	width: 10px;
+	height: 10px;
+	position:relative;
+	left: -5px;
+    top: -3px;;
+}
+
 .btn-trash {
 	position: absolute;
 	top: 3px;
     left: 55px;
+	border: none;
+	background-color: black;
+	border-radius: 2px;
+	width: 19px;
+	z-index: 1;
+}
+
+.btn-move {
+	position: absolute;
+	top: 3px;
+    left: 30px;
 	border: none;
 	background-color: black;
 	border-radius: 2px;
@@ -508,6 +528,15 @@ hr {
 	top: -50px;
     left: 50px;
 	visibility: hidden;
+}
+
+.img-span {
+	position: absolute;
+	width: 94px;
+    height: 12px;
+    top: -40px;
+    left: 169px;
+    font-size: 10px;
 }
 
 .add-photo {
