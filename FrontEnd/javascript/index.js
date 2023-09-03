@@ -1,12 +1,13 @@
 let rawProjects = [];
 let storedToken;
 let categories = [];
+let categoriesSelect = [];
 
 // filtrage des projets par catégories.
 const getCategories = async function () {
     const response = await fetch('http://localhost:5678/api/categories');
     categories = await response.json();
-    console.log(categories);
+    categoriesSelect = [...categories];
 
     const filters = document.querySelector('.filters');
     filters.innerHTML = '';
@@ -140,10 +141,7 @@ function addModal() {
     const arrowBtn = document.querySelector('.btn-arrow');
 
     arrowBtn.addEventListener('click', () => {
-        getProjects();
-        document.querySelector('.modal-actions').style.display = 'flex';
-        document.querySelector('.hr1').style.display = 'flex';
-        arrowBtn.style.visibility = 'hidden';
+        showEditProjects();
     });
 
     addBtn.addEventListener('click', () => {
@@ -154,30 +152,31 @@ function addModal() {
         arrowBtn.style.visibility = 'visible';
 
         const templateAddWorkForm = document.querySelector("#template-add-work-form").content.cloneNode(true);
+        document.querySelector('.modal-content').appendChild(templateAddWorkForm);
+        
+        const imageFileInput = document.getElementById('file');
+        imageFileInput.addEventListener('change', function() {
+            if (!this.value) {
+                resetPreview();
+            }
 
-        const imageFileInput = templateAddWorkForm.getElementById('file');
-        const imgDw = templateAddWorkForm.querySelector('.img-preview');
-
-        imageFileInput.addEventListener('change', function () {
-            console.log(this.files);
             const file = this.files[0];
             if (file) {
-
                 const reader = new FileReader();
+                const imgDw = document.querySelector('.img-preview');
                 imgDw.style.visibility = 'visible';
                 document.querySelector('.add-photo').style.visibility = 'hidden';
                 document.querySelector('.img-span').style.visibility = 'hidden';
                 reader.readAsDataURL(file);
 
-                reader.addEventListener('load', function () {
+                reader.addEventListener('load', function() {
                     imgDw.setAttribute('src', this.result);
                 });
             };
         });
 
-        const categoryInput = templateAddWorkForm.getElementById('category-input');
-
-        for (let category of categories) {
+        const categoryInput = document.getElementById('category-input');
+        for (let category of categoriesSelect) {
             const option = document.createElement('option');
             option.value = category.id;
             option.innerText = category.name;
@@ -185,41 +184,54 @@ function addModal() {
             categoryInput.appendChild(option);
         }
 
-        let addWorkForm = templateAddWorkForm.getElementById('add-work-form');
+        const addWorkForm = document.getElementById('add-work-form');
         addWorkForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const fileInput = document.querySelector('input[type=file]');
+            const titleInput = document.querySelector('.title-input');
 
-            if (fileInput.files.innerHTML ==="") {
-                alert('Veuillez saisir les champs');
+            if (!titleInput.value || !categoryInput.value || fileInput.files.length === 0) {
+                alert('Veuillez saisir tous les champs');
                 return;
             }
 
-                const formData = new FormData(addWorkForm);
-                console.log(formData);
+            const formData = new FormData(addWorkForm);
 
-                await fetch('http://localhost:5678/api/works', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${storedToken}`
-                    },
-                    body: formData
-                });
+            await fetch('http://localhost:5678/api/works', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${storedToken}`
+                },
+                body: formData
+            });
 
-                await getProjects();
-                document.querySelector('.modal-actions').style.display = 'flex';
-                document.querySelector('.hr1').style.display = 'flex';
-                arrowBtn.style.visibility = 'hidden';
-
+            await getProjects();
+            document.querySelector('.modal-actions').style.display = 'flex';
+            document.querySelector('.hr1').style.display = 'flex';
+            arrowBtn.style.visibility = 'hidden';
         });
-
-        document.querySelector('.modal-content').appendChild(templateAddWorkForm);
     });
 }
 
+function showEditProjects() {
+    displayWorks(rawProjects);
+    document.querySelector('.modal-actions').style.display = 'flex';
+    document.querySelector('.hr1').style.display = 'flex';
+    document.querySelector('.btn-arrow').style.visibility = 'hidden';
+}
+
+function resetPreview() {
+    const imgDw = document.querySelector('.img-preview');
+    imgDw.setAttribute('src', '#');
+    imgDw.style.visibility = 'hidden';
+
+    document.querySelector('.add-photo').style.visibility = 'visible';
+    document.querySelector('.img-span').style.visibility = 'visible';
+}
+
 // Gestion de la modale.
-function manageProject() {
+function manageProjects() {
     const openBtn = document.querySelector('.btn-modify');
     const closeBtn = document.querySelector('.btn-close');
     const modal = document.querySelector('#modal-edit');
@@ -230,11 +242,13 @@ function manageProject() {
 
     closeBtn.addEventListener('click', () => {
         modal.close();
+        showEditProjects();
     });
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.close();
+            showEditProjects();
         }
     });
 }
@@ -264,5 +278,5 @@ function checkLogin() {
 getProjects();
 getCategories();
 addModal();
-manageProject();
+manageProjects();
 checkLogin();
