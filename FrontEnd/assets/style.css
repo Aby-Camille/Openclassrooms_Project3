@@ -430,7 +430,7 @@ dialog::backdrop {
 
 .modal-image {
 	width: 76.86px;
-	height: auto;
+	height: 104.08px;
 }
 
 .modal-content {
@@ -469,28 +469,10 @@ hr {
 	left: -1px;
 }
 
-.font-move {
-	width: 10px;
-	height: 10px;
-	position:relative;
-	left: -3px;
-}
-
 .btn-trash {
 	position: absolute;
 	top: 3px;
     left: 55px;
-	border: none;
-	background-color: black;
-	border-radius: 2px;
-	width: 19px;
-	z-index: 1;
-}
-
-.btn-move {
-	position: absolute;
-	top: 3px;
-    left: 30px;
 	border: none;
 	background-color: black;
 	border-radius: 2px;
@@ -562,6 +544,8 @@ hr {
     font-size: 1.2em;
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	padding-right: 0;
+    padding-left: 3px;
 }
 
 .category-select {

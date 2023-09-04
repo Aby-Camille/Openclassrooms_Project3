@@ -2,10 +2,11 @@ let rawProjects = [];
 let storedToken;
 let categories = [];
 let categoriesSelect = [];
+let apiBase = 'http://localhost:5678/api';
 
-// filtrage des projets par catégories.
+//   filtrage des projets par catégories.
 const getCategories = async function () {
-    const response = await fetch('http://localhost:5678/api/categories');
+    const response = await fetch(apiBase + '/categories');
     categories = await response.json();
     categoriesSelect = [...categories];
 
@@ -41,7 +42,7 @@ const getCategories = async function () {
 
 // Récupération et affichage des projets via l'API.
 const getProjects = async function () {
-    const response = await fetch('http://localhost:5678/api/works');
+    const response = await fetch(apiBase + '/works');
     rawProjects = await response.json();
     console.log(rawProjects);
 
@@ -71,7 +72,7 @@ function displayProjects(projects) {
 
 // Supprimer un projet.
 const deleteProject = async function (id) {
-    await fetch(`http://localhost:5678/api/works/${id}`, {
+    await fetch(apiBase + `/works/${id}`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${storedToken}`
@@ -94,16 +95,7 @@ function displayWorks(projects) {
         const figcaption = document.createElement('figcaption');
         figcaption.innerHTML = project.title;
         figcaption.innerHTML = "éditer";
-
-        const iconMove = document.createElement('span');
-        iconMove.classList.add('font-move');
-        iconMove.innerHTML = `
-        <i class="fa-solid fa-up-down-left-right" style="color: #ffffff; font-size: 12px;"></i>
-        `;
-
-        const moveBtn = document.createElement('button');
-        moveBtn.classList.add('btn-move');
-
+        
         const iconBin = document.createElement('span');
         iconBin.classList.add('font-icon');
         iconBin.innerHTML = `
@@ -127,8 +119,6 @@ function displayWorks(projects) {
 
         figure.appendChild(img);
         figure.appendChild(figcaption);
-        figure.appendChild(moveBtn);
-        moveBtn.appendChild(iconMove);
         figure.appendChild(trashBtn);
         trashBtn.appendChild(iconBin);
         modalContent.appendChild(figure);
@@ -153,9 +143,9 @@ function addModal() {
 
         const templateAddWorkForm = document.querySelector("#template-add-work-form").content.cloneNode(true);
         document.querySelector('.modal-content').appendChild(templateAddWorkForm);
-        
+
         const imageFileInput = document.getElementById('file');
-        imageFileInput.addEventListener('change', function() {
+        imageFileInput.addEventListener('change', function () {
             if (!this.value) {
                 resetPreview();
             }
@@ -169,7 +159,7 @@ function addModal() {
                 document.querySelector('.img-span').style.visibility = 'hidden';
                 reader.readAsDataURL(file);
 
-                reader.addEventListener('load', function() {
+                reader.addEventListener('load', function () {
                     imgDw.setAttribute('src', this.result);
                 });
             };
@@ -198,7 +188,7 @@ function addModal() {
 
             const formData = new FormData(addWorkForm);
 
-            await fetch('http://localhost:5678/api/works', {
+            await fetch(apiBase + '/works', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${storedToken}`
