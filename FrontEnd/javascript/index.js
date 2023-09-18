@@ -44,7 +44,6 @@ const getCategories = async function () {
 const getProjects = async function () {
     const response = await fetch(apiBase + '/works');
     rawProjects = await response.json();
-    console.log(rawProjects);
 
     displayProjects(rawProjects);
     displayWorks(rawProjects);
