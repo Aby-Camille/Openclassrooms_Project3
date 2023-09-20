@@ -251,6 +251,7 @@ function checkLogin() {
         logout.innerHTML = 'logout';
         document.querySelector('.top-bar').style.display = 'flex';
         document.querySelector('.btn-modify').style.display = 'flex';
+        document.querySelector('.filters').style.display = 'none';
 
         logout.addEventListener('click', () => {
             localStorage.removeItem('token');
