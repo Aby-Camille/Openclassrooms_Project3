@@ -1,6 +1,6 @@
 ## Portfolio Sophie Bluel - Projet Openclassrooms n°3
 
-Créez une page web dynamique d'un site de photogrpahie avec Javascript
+Créez une page web dynamique d'un site de photographie avec Javascript
 
 ![image](https://github.com/Aby-Camille/Openclassrooms_Project3/blob/208190cacfd03a326b194de19929958c988a48ad/FrontEnd/assets/images/image_readMe.png)
 
